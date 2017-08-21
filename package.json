@@ -4,11 +4,15 @@
   "description": "game to keep the brain sharp",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test/test.js"
+    "test": "node_modules/mocha/bin/mocha --require babel-polyfill --compilers js:babel-register test/test.js"
   },
   "author": "Nixon Lolila Ramin",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.1",
     "mocha": "^3.5.0"
   },
