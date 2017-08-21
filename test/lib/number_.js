@@ -1,21 +1,21 @@
-const Number_ = require('../../lib/number_'),
-      ArgumentError = require('../../lib/errors/argument-error'),
-      chai = require('chai'),
-      expect = chai.expect;
+const Number_ = require('../../lib/number_');
+const ArgumentError = require('../../lib/errors/argument-error');
+const ypeOf = require('../../lib/type-of');
+const chai = require('chai');
+const expect = chai.expect;
 
-
-describe('Number_', () => {
+describe('#Number_', () => {
   const number = 3;
-  const n = new Number_({number: number});
+  const n = new Number_({ number: number });
 
   describe('instantiation', () => {
     it('should validate that input has property "number" of type "Number"', () => {
-      expect(() => { new Number_(number)}).to.throw();
-      expect(() => { new Number_({number: number}) }).to.not.throw();
+      expect(() => { new Number_(number);}).to.throw();
+      expect(() => { new Number_({ number: number }); }).to.not.throw();
     });
 
     it('should create an instance of "Number_"', () => {
-      expect(n.constructor.name).to.equal('Number_')
+      expect(typeOf(n)).to.equal('number_');
     });
   });
 
@@ -73,7 +73,7 @@ describe('Number_', () => {
     it('should throw an "ArgumentError" if input is not a Number', () => {
       expect(() => n.setNumber()).to.throw();
     });
-  })
+  });
 
   describe('_show', () => {
     it('should have method show', () => {
@@ -81,11 +81,10 @@ describe('Number_', () => {
     });
 
     it('should set own property "hidden" to false', () => {
-      n.show()
-
+      n.show();
       expect(n.hidden).to.equal(false);
     });
-  })
+  });
 
   describe('_hide', () => {
     it('should have method hide', () => {
@@ -93,10 +92,9 @@ describe('Number_', () => {
     });
 
     it('should set own property "hidden" to true', () => {
-      n.hide()
-
+      n.hide();
       expect(n.hidden).to.equal(true);
     });
-  })
+  });
 
 });
