@@ -1,6 +1,6 @@
 const Number_ = require('../../lib/number_');
 const ArgumentError = require('../../lib/errors/argument-error');
-const ypeOf = require('../../lib/type-of');
+const typeOf = require('../../lib/type-of');
 const chai = require('chai');
 const expect = chai.expect;
 
