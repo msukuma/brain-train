@@ -8,8 +8,15 @@ describe('Number_', () => {
   const number = 3;
   const n = new Number_({number: number});
 
-  it('should exist', () =>{
-    expect(n.constructor.name).to.equal('Number_')
+  describe('instantiation', () => {
+    it('should validate that input has property "number" of type "Number"', () => {
+      expect(() => { new Number_(number)}).to.throw();
+      expect(() => { new Number_({number: number}) }).to.not.throw();
+    });
+
+    it('should create an instance of "Number_"', () => {
+      expect(n.constructor.name).to.equal('Number_')
+    });
   });
 
   describe('_number', () => {

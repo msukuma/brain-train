@@ -4,7 +4,7 @@
   "description": "game to keep the brain sharp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha test/test.js"
   },
   "author": "Nixon Lolila Ramin",
   "license": "ISC",
