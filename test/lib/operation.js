@@ -1,11 +1,8 @@
-'use strict';
-
-const Operation = require('../../lib/operation');
-const Number_ = require('../../lib/number_');
-const ArgumentError = require('../../lib/errors/argument-error');
-const typeOf = require('../../lib/type-of');
-const chai = require('chai');
-const expect = chai.expect;
+import Operation from '../../lib/operation';
+import Number_ from '../../lib/number_';
+import ArgumentError from '../../lib/errors/argument-error';
+import typeOf from '../../lib/type-of';
+import { expect } from 'chai';
 
 describe('#Operation', () => {
   const o = new Operation();
