@@ -8,15 +8,23 @@
   },
   "author": "Nixon Lolila Ramin",
   "license": "ISC",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
+    "capitalize": "^1.0.0",
     "chai": "^4.1.1",
     "mocha": "^3.5.0"
   },
   "dependencies": {
     "react": "^15.6.1"
-  }
+  },
+  "repository": "https://github.com/nixonlr/brain-train"
 }

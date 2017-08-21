@@ -1,2 +1,2 @@
-require('./lib/number_');
-require('./lib/operation');
+import './lib/number_';
+import './lib/operation'
