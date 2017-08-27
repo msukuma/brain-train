@@ -1,2 +1,2 @@
 import './lib/number_';
-import './lib/operation'
+import './lib/operation';
