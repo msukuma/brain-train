@@ -6,5 +6,5 @@ const g =  <MentalMath config={{}}/>;
 
 ReactDom.render(
   g,
-  document.getElementById('test')
+  document.getElementById('game')
 );
