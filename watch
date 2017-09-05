@@ -5,11 +5,10 @@ var path = require('path');
 var cp = require('child_process');
 
 function watch() {
-  const dir = path.resolve(__dirname, 'lib');
+  const jsDir = path.resolve(__dirname, 'lib', 'js');
 
-  console.log(`Watching directory ${dir} for changes.`);
-
-  fs.watch(dir, { recursive: true }, function (eventType, filename) {
+  console.log(`Watching directory ${jsDir} for changes.`);
+  fs.watch(jsDir, { recursive: true }, (eventType, filename) => {
     let src;
     let dest;
     let browserify;
@@ -19,7 +18,7 @@ function watch() {
       date = new Date().toLocaleString();
       console.log(`${date}: Change detected in file ${filename}`);
 
-      src = path.resolve(__dirname, 'lib', 'index.js');
+      src = path.resolve(__dirname, 'lib', 'js', 'index.js');
       dest = path.resolve(__dirname, 'dist', 'bundle.js');
       cp.exec(`browserify ${src} -t babelify --outfile ${dest}`, (error, stdout, stderr) => {
 
