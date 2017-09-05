@@ -1,0 +1,39 @@
+#! /Users/inn/.nvm/versions/node/v8.4.0/bin/node
+
+var fs = require('fs');
+var path = require('path');
+var cp = require('child_process');
+
+function watch() {
+  const dir = path.resolve(__dirname, 'lib');
+
+  console.log(`Watching directory ${dir} for changes.`);
+
+  fs.watch(dir, { recursive: true }, function (eventType, filename) {
+    let src;
+    let dest;
+    let browserify;
+    let date;
+
+    if (filename) {
+      date = new Date().toLocaleString();
+      console.log(`${date}: Change detected in file ${filename}`);
+
+      src = path.resolve(__dirname, 'lib', 'index.js');
+      dest = path.resolve(__dirname, 'dist', 'bundle.js');
+      cp.exec(`browserify ${src} -t babelify --outfile ${dest}`, (error, stdout, stderr) => {
+
+        if (error) {
+          console.error(`exec error: ${error}`);
+        } else if (stderr) {
+          console.error(`exec stderr: ${stderr}`);
+        } else {
+          date = new Date().toLocaleString();
+          console.log(`${date}: Re-bundled` + '\n');
+        }
+      });
+    }
+  });
+}
+
+watch();
