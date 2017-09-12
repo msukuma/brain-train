@@ -18,7 +18,7 @@ function watch() {
       date = new Date().toLocaleString();
       console.log(`${date}: Change detected in file ${filename}`);
 
-      src = path.resolve(__dirname, 'lib', 'js', 'index.js');
+      src = path.resolve(__dirname, 'lib', 'js', 'brain-train.js');
       dest = path.resolve(__dirname, 'dist', 'bundle.js');
       cp.exec(`browserify ${src} -t babelify --outfile ${dest}`, (error, stdout, stderr) => {
 
