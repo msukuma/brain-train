@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "game to keep the brain sharp",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha --compilers js:babel-register test/test.js"
+    "test": "node_modules/mocha/bin/mocha --compilers js:babel-register test/test.js",
+    "build": "node_modules/browserify/bin/cmd.js lib/js/app.js -t babelify --outfile dist/bundle.js",
+    "watch": ""
   },
   "author": "Nixon Lolila Ramin",
   "license": "ISC",
@@ -22,9 +24,11 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
     "chai": "^4.1.1",
     "enzyme": "^2.9.1",
     "mocha": "^3.5.0",
+    "node-sass": "^4.5.3",
     "react-test-renderer": "^15.6.1"
   },
   "dependencies": {
