@@ -2,38 +2,100 @@
 
 var fs = require('fs');
 var path = require('path');
-var cp = require('child_process');
+var browserify = require('browserify');
+var sass = require('node-sass');
 
-function watch() {
+function handleError(err) {
+  if (err.stack) {
+    console.error(err.stack);
+  } else {
+    console.log(String(err));
+  }
+}
+
+function watchJs() {
   const jsDir = path.resolve(__dirname, 'lib', 'js');
+  const src = path.resolve(__dirname, 'lib', 'js', 'app.js');
+  const dest = path.resolve(__dirname, 'dist', 'bundle.js');
 
-  console.log(`Watching directory ${jsDir} for changes.`);
-  fs.watch(jsDir, { recursive: true }, (eventType, filename) => {
-    let src;
-    let dest;
-    let browserify;
-    let date;
+  watch(jsDir, src, dest, (status, writeFn) => {
+    bundle(status, writeFn => {
+      const b = browserify(src, { transform: 'babelify' });
 
-    if (filename) {
-      date = new Date().toLocaleString();
-      console.log(`${date}: Change detected in file ${filename}`);
-
-      src = path.resolve(__dirname, 'lib', 'js', 'app.js');
-      dest = path.resolve(__dirname, 'dist', 'bundle.js');
-      cp.exec(`browserify ${src} -t babelify --outfile ${dest}`, (error, stdout, stderr) => {
-
-        if (error) {
-          console.error(`exec error: ${error}`);
-        } else if (stderr) {
-          console.error(`exec stderr: ${stderr}`);
+      b.bundle((err, buf) => {
+        if (err) {
+          handleError(err);
         } else {
-          date = new Date().toLocaleString();
-          console.log(`${date}: Re-bundled` + '\n');
+          writeFn(buf);
         }
-
       });
-    }
+    }, writeFn);
   });
 }
 
-watch();
+function watchSass() {
+  const sassDir = path.resolve(__dirname, 'lib', 'css');
+  const src = path.resolve(__dirname, 'lib', 'css', 'main.sass');
+  const dest = path.resolve(__dirname, 'dist', 'main.css');
+
+  watch(sassDir, src, dest, (status, writeFn) => {
+    bundle(status, writeFn => {
+      const options = {
+        file: src,
+        outFile: dest,
+        indentedSyntax: true,
+      };
+
+      sass.render(options, (err, result) => {
+        if (err) {
+          handleError(err);
+        } else {
+          writeFn(result.css);
+        }
+
+      });
+    }, writeFn);
+  });
+}
+
+function bundle(status, howToBundle, writeFn) {
+  if (status.bundling) {
+    console.log(`${new Date().toLocaleString()}: bundling already in progress`);
+  } else {
+    status.bundling = true;
+    howToBundle(writeFn);
+  }
+}
+
+function watch(dir, src, dest, bundleFn) {
+  const status = { bundling: false };
+
+  console.log(`Watching directory ${dir} for changes.`);
+  fs.watch(dir, { recursive: true }, (eventType, filename) => {
+    let date;
+    let options;
+
+    console.log(`${new Date().toLocaleString()}: Change detected in file ${filename}`);
+    bundleFn(status, data => {
+      const distDir = path.join(__dirname, 'dist');
+
+      if (!fs.existsSync(distDir)) {
+        fs.mkdirSync(distDir);
+      }
+
+      fs.writeFile(dest, data, err => {
+        if (err) {
+          handleError(err);
+        } else {
+          console.log(`${new Date().toLocaleString()}: Re-bundled` + '\n');
+        }
+
+        status.bundling = false;
+      });
+
+    });
+  });
+}
+
+watchJs();
+watchSass();

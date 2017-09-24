@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var browserify = require('browserify');
+var sass = require('node-sass');
+
+function handleError(err) {
+  if (err.stack) {
+    console.error(err.stack);
+  } else {
+    console.log(String(err));
+  }
+}
+
+function write(dest, data) {
+  fs.writeFile(dest, data, err => {
+    if (err) {
+      handleError(err);
+    } else {
+      console.log(`${new Date().toLocaleString()}: Built ${path.basename(dest)}`);
+    }
+  });
+}
+
+function buildJs() {
+  const src = path.resolve(__dirname, 'lib', 'js', 'app.js');
+  const dest = path.resolve(__dirname, 'dist', 'bundle.js');
+  const b = browserify(src, { transform: 'babelify' });
+
+  b.bundle(function (err, buf) {
+    if (err) {
+      handleError(err);
+    } else {
+      write(dest, buf);
+    }
+  });
+}
+
+function buildCss() {
+  const src = path.resolve(__dirname, 'lib', 'css', 'main.sass');
+  const dest = path.resolve(__dirname, 'dist', 'main.css');
+  const options = {
+    file: src,
+    outFile: dest,
+    indentedSyntax: true,
+  };
+
+  sass.render(options, function (err, result) {
+    if (err) {
+      handleError(err);
+    } else {
+      write(dest, result.css);
+    }
+
+  });
+}
+
+function build() {
+  const distDir = path.join(__dirname, 'dist');
+
+  if (!fs.existsSync(distDir)) {
+    fs.mkdir(distDir, err => {
+      if (err) {
+        handleError(err);
+      } else {
+        buildJs();
+        buildCss();
+      }
+    });
+  }
+}
+
+build();
