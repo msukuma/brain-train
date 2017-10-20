@@ -1,7 +1,7 @@
 {
   "name": "brain-train",
   "version": "1.0.0",
-  "description": "game to keep the brain sharp",
+  "description": "Games to keep the brain sharp",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha --compilers js:babel-register test/test.js",
     "build": "node build",
@@ -35,7 +35,6 @@
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
-    "popper.js": "^1.12.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
