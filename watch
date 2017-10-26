@@ -71,12 +71,9 @@ function bundle(status, howToBundle, writeFn) {
 
 function watch(dir, src, dest, bundleFn) {
   const status = { bundling: false };
-
   console.log(`Watching directory ${dir} for changes.`);
-  fs.watch(dir, { recursive: true }, (eventType, filename) => {
-    let date;
-    let options;
 
+  fs.watch(dir, { recursive: true }, (eventType, filename) => {
     console.log(`${new Date().toLocaleString()}: Change detected in file ${filename}`);
     bundleFn(status, data => {
       const distDir = path.join(__dirname, 'dist');
@@ -97,12 +94,6 @@ function watch(dir, src, dest, bundleFn) {
 }
 
 function writeFile(data, dest, status) {
-  // const r = fs.createWriteStream(dest);
-  // r.on('open', (e) => console.log('e is now open', e));
-  // fs.createReadStream(data).pipe(r);
-  // status.bundling = false;
-  // console.log(`${new Date().toLocaleString()}: Re-bundled` + '\n');
-
   fs.writeFile(dest, data, err => {
     if (err) {
       handleError(err);

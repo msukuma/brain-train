@@ -5,7 +5,7 @@
   "scripts": {
     "test": "node_modules/mocha/bin/mocha --compilers js:babel-register test/test.js",
     "build": "node build",
-    "watch": "node watch"
+    "watch": "node watch.js"
   },
   "author": "Nixon Lolila Ramin",
   "license": "ISC",
